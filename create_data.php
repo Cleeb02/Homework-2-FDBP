@@ -39,20 +39,31 @@ function generateCustomerData()
     for ($i = 0; $i < 25; $i++) {
         $currentLine = array($i, $firstNames[rand(0, count($firstNames) - 1)], $lastNames[rand(0, count($lastNames) - 1)], rand(10, 999) . " " . $allStreetNames[rand(0, count($allStreetNames) - 1)] . " " . $allStreetTypes[rand(0, count($allStreetTypes) - 1)]);
         $fullEmail = $currentLine[1] . "." . trim($currentLine[2] . " ") . "@" . $allDomains[rand(0, count($allDomains) - 1)];
+        //create a random email with the random first and last name then push to the end of the arrray
+        //Data format is always the same so the email is always the last index of the array
         array_push($currentLine, $fullEmail);
         array_push($randomCustomerData, $currentLine);
     }
     return $randomCustomerData;
+    //Returns a 2D array of random customer data
+    // Each subaray follows this format [index0:CustomerID, index1:customerFirstName, index2 CustomerLastName, index3 Customer Full Address, index4: Customer Email]
 }
 function displayCustomerData($data_Arr)
 {
+    //First look at the table and headings before reading the loop logic
+    //Keep in mind the format of the data from the generateCustomerData function above
     for ($i = 0; $i < count($data_Arr); $i++) {
         print "<tr>";
+        //all this line does is open the row tag
         for ($j = 0; $j < count($data_Arr[$i]); $j++) {
             $currValue = $data_Arr[$i][$j];
+            //store current value of the subarray
             print ("<td>$currValue</td>");
+            //for every subarray or "customer" print a new column for each value in current subarray
+            //It will print colums in this order : id, firstName, LastName, Full Address, Full email
         }
         print "</tr>";
+        //close the row tag
     }
 }
 
@@ -123,6 +134,7 @@ function writeDataToFile($data_Arr)
 
     <table border="3">
         <tr>
+            <!-- Notice the headings are in the same order as the subarray values in CustomerData -->
             <th>Customer ID</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -133,6 +145,7 @@ function writeDataToFile($data_Arr)
         $tableData = generateCustomerData();
         displayCustomerData($tableData);
         writeDataToFile($tableData);
+        // Simply call function to generate data then print. Finally write to file.
         ?>
     </table>
     <div class="container" style="display: flex; justify-content:center">
